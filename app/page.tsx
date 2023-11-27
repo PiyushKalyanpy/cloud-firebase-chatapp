@@ -1,9 +1,5 @@
-import Image from 'next/image'
+import Image from "next/image";
 
 export default function Home() {
-  return (
-   <main>
-    Hey Chat app!
-   </main>
-  )
+  return <main>Hey Chat app!</main>;
 }
