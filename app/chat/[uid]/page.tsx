@@ -6,19 +6,14 @@ import { Input, Button } from "@nextui-org/react";
 import { useContext } from "react";
 import { AuthContext } from "@/context/AuthContext";
 import { db, rtdb } from "@/database/firebase";
-import { getDoc, doc } from "firebase/firestore";
-import Image from "next/image";
+import { doc, getDoc } from "firebase/firestore";
+import UserComponent from "@/components/UserComponent";
+import { UserInterface } from "@/types/User";
 
 interface Chat {
   message: string;
   timestamp: number;
   sentTo: string;
-}
-
-interface UserInfo {
-  photoURL: string;
-  name: string;
-  email: string;
 }
 
 const fetchChats = async (uid1: string, uid2: string) => {
@@ -36,7 +31,7 @@ const ChatPage = () => {
   const [chats, setChats] = useState<Record<string, Chat>>({});
   const [message, setMessage] = useState("");
   const { currentUser } = useContext(AuthContext);
-  const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
+  const [userInfo, setUserInfo] = useState<UserInterface | null>(null);
 
   useEffect(() => {
     const fetchChatsAndSaveToCache = async () => {
@@ -54,16 +49,11 @@ const ChatPage = () => {
 
     const fetchUserInfoAndSaveToState = async () => {
       console.log("Getting Data: user");
-      const docRef = doc(db, "users", uid);
-      getDoc(docRef)
+      const docRef = await getDoc(doc(db, "users", uid.toString()))
         .then((doc) => {
           if (doc.exists()) {
             const data = doc.data();
-            setUserInfo({
-              photoURL: data?.photoURL,
-              name: data?.name,
-              email: data?.email,
-            });
+            setUserInfo(data as UserInterface);
           } else {
             console.log("No such document!");
           }
@@ -106,33 +96,7 @@ const ChatPage = () => {
     <div className="flex flex-col h-screen w-full">
       <header className="bg-gray-800 text-white p-4">
         <div className="flex items-center justify-between">
-          <div className="flex items-center">
-            <Image
-              src={userInfo?.photoURL}
-              alt="avatar"
-              width={50}
-              height={50}
-              className="rounded-full"
-            />
-            <p className="text-sm font-medium">{userInfo?.name}</p>
-          </div>
-          <div className="flex items-center">
-            <p className="text-xs text-gray-400">{userInfo?.email}</p>
-            <div className="ml-2">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5 cursor-pointer"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M10 7.5a2 2 0 100-4 2 2 0 000 4zm0 5a2 2 0 100-4 2 2 0 000 4zm0 5a2 2 0 100-4 2 2 0 000 4z"
-                  clipRule="evenodd"
-                />
-              </svg>
-            </div>
-          </div>
+          <UserComponent {...(userInfo as UserInterface)} />
         </div>
       </header>
       <main className="flex-grow p-4 overflow-y-scroll">

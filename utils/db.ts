@@ -8,8 +8,7 @@ export const updateLastLoginTime = async (uid: string) => {
   });
 };
 
-
-export const updateOnlineStatus = async (uid: string, isOnline : boolean) => {
+export const updateOnlineStatus = async (uid: string, isOnline: boolean) => {
   const userRef = doc(db, "users", uid);
   await updateDoc(userRef, {
     isOnline,
