@@ -18,6 +18,9 @@ if (!getApps().length) {
   app = getApps()[0]; // if already initialized, use that one
 }
 
+
 export const auth = getAuth(app);
 export const db = getFirestore(app);
 export const rtdb = getDatabase(app);
+
+

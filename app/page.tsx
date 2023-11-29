@@ -1,9 +1,10 @@
 "use client";
 import Image from "next/image";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { AuthContext } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 import { Button } from "@nextui-org/react";
+import { updateOnlineStatus } from "@/utils/db";
 
 /**
  * Renders the Home page component.
@@ -15,6 +16,24 @@ export default function Home() {
 
   const router = useRouter();
   if (!currentUser) router.push("/login");
+
+  useEffect(() => {
+    window.addEventListener("beforeunload", (event) => {
+      event.preventDefault(); // Prevent the default browser behavior
+
+      // Send an asynchronous request to update the user's status in Firebase
+      updateOnlineStatus(currentUser.uid, false)
+        .then(() => {
+          // User's status updated successfully
+          event.returnValue = ""; // Allow the browser to proceed with closing
+        })
+        .catch((error) => {
+          // Error updating user's status
+          console.error("Error updating user online status:", error);
+        });
+    });
+  }, []);
+
   return (
     <main>
       Helo user {currentUser?.name}

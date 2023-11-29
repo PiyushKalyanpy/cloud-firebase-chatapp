@@ -5,6 +5,7 @@ import { auth, db } from "@/database/firebase";
 import { signOut, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { useRouter } from "next/navigation";
+import { updateOnlineStatus } from "@/utils/db";
 
 export const AuthContext = React.createContext();
 
@@ -39,6 +40,7 @@ export function AuthProvider({ children }) {
     const userDoc = await getDoc(doc(db, "users", user.uid));
     setCurrentUser(userDoc.data());
     setIsLoading(false);
+    updateOnlineStatus(user.uid, true); // Call updateOnlineStatus function
   };
 
   const loginWithGoogle = async () => {
@@ -72,6 +74,7 @@ export function AuthProvider({ children }) {
     signOut(auth).then(() => {
       setCurrentUser(null);
       router.push("/login");
+      updateOnlineStatus(currentUser.uid, false); // Call updateOnlineStatus function
     });
   };
 

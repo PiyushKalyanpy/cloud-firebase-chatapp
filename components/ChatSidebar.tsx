@@ -36,15 +36,13 @@ const ChatSidebar = () => {
       Select the chats to start messaging
       {/* all user */}
       <div>
-        {
-          users.map((user) => {
-            return (
-              <div key={user.uid} className="border m-2 p-2 cursor-pointer">
-                <UserComponent {...user} />
-              </div>
-            );
-          })
-        }
+        {users.map((user) => {
+          return (
+            <div key={user.uid} className="border m-2 p-2 cursor-pointer">
+              <UserComponent {...user} />
+            </div>
+          );
+        })}
       </div>
       {/* footer for setting page */}
       <div className="absolute bottom-0 w-full">
