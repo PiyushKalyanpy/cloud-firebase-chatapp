@@ -5,6 +5,11 @@ import { AuthContext } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 import { Button } from "@nextui-org/react";
 
+/**
+ * Renders the Home page component.
+ * If there is no current user, it redirects to the login page.
+ * Otherwise, it displays the user's name and provides buttons for logout and navigating to the chat page.
+ */
 export default function Home() {
   const { currentUser, logout } = useContext(AuthContext);
 

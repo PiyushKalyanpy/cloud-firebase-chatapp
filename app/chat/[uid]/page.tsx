@@ -135,7 +135,7 @@ const ChatPage = () => {
           </div>
         </div>
       </header>
-      <main className="flex-grow p-4">
+      <main className="flex-grow p-4 overflow-y-scroll">
         {Object.values(chats).map((chat) => (
           <div
             key={chat.timestamp}

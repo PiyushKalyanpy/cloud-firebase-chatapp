@@ -1,7 +1,15 @@
-import { User } from "@/types/User";
+import { UserInterface } from "@/types/User";
+import { User } from "@nextui-org/react";
 
-const UserComponent = () => {
-  return <div>Enter</div>;
+const UserComponent = (user : UserInterface) => {
+  return <div>
+ <User   
+      name={user.name}
+      avatarProps={{
+        src: user.photoURL 
+      }}
+    />
+  </div>;
 };
 
 export default UserComponent;
