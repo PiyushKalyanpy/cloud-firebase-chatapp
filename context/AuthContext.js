@@ -12,7 +12,7 @@ export function useAuth() {
   return useContext(AuthContext);
 }
 
-export function AuthProvider({ children}) {
+export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
@@ -32,8 +32,11 @@ export function AuthProvider({ children}) {
       clear();
       return;
     }
+    if (currentUser) {
+      return;
+    }
     console.log("aa");
-    const userDoc = await getDoc(doc(db, "users", user.email));
+    const userDoc = await getDoc(doc(db, "users", user.uid));
     setCurrentUser(userDoc.data());
     setIsLoading(false);
   };
@@ -41,16 +44,14 @@ export function AuthProvider({ children}) {
   const loginWithGoogle = async () => {
     const provider = new GoogleAuthProvider();
     signInWithPopup(auth, provider).then((result) => {
-      // check if user is present in user firestore database
       const docRef = doc(db, "users", result.user.uid);
+
       getDoc(docRef).then((docSnap) => {
         if (docSnap.exists()) {
-          // set current user
           setCurrentUser(docSnap.data());
           router.push("/courses");
         } else {
-          // user does not exist
-          setDoc(doc(db, "users", result.user.email), {
+          setDoc(doc(db, "users", result.user.uid), {
             email: result.user.email,
             name: result.user.displayName,
             photoURL: result.user.photoURL,
@@ -59,6 +60,7 @@ export function AuthProvider({ children}) {
             createdAt: new Date(),
             isVerified: result.user.emailVerified,
             isActive: false,
+            hideMe: false,
             isOnline: false,
           });
         }
@@ -72,16 +74,13 @@ export function AuthProvider({ children}) {
       router.push("/login");
     });
   };
+
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       authStateChanged(user);
     });
+    return unsubscribe;
   }, []);
-
-  const value = {
-    loginWithGoogle,
-    currentUser,
-  };
 
   return (
     <AuthContext.Provider
