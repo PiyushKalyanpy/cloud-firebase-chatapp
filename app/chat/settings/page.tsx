@@ -26,11 +26,16 @@ const Settings = () => {
   };
 
   return (
-    <div>
-      <Switch isSelected={hideMe} onValueChange={handleHideMeChange}>
-        Hide from Other
-      </Switch>
-      <p>Hide your profile from others </p>
+    <div className="w-full p-4">
+      <div className="flex flex-row items-center justify-between w-full border p-4 rounded-2xl ">
+        <div className=" flex flex-col space-y-2">
+          <h1 className="text-xl ">Hide me</h1>
+          <p className="text-gray-500 text-sm">
+            Do not show me in the list of users
+          </p>
+        </div>
+        <Switch isSelected={hideMe} onValueChange={handleHideMeChange} />
+      </div>
     </div>
   );
 };

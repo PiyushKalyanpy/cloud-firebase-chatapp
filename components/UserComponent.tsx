@@ -1,18 +1,23 @@
 import { UserInterface } from "@/types/User";
 import { useRouter } from "next/navigation";
-import { User } from "@nextui-org/react";
+import Image from "next/image";
 
 const UserComponent = (user: UserInterface) => {
   const router = useRouter();
 
   return (
-    <div onClick={() => router.push(`/chat/${user.uid}`)}>
-      <User
-        name={user.name}
-        avatarProps={{
-          src: user.photoURL,
-        }}
+    <div className="flex flex-row space-x-4 items-center" onClick={() => router.push(`/chat/${user.uid}`)}>
+      <Image
+        src={user.photoURL}
+        width={40}
+        height={40}
+        alt={user.name}
+        className="rounded-full"
       />
+      <div className="flex flex-col items-center ">
+        <h1 className="text-md font-medium">{user.name}</h1>
+        <p className="text-xs text-gray-500"></p>
+      </div>
     </div>
   );
 };

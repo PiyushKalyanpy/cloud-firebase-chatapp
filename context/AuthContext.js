@@ -51,7 +51,7 @@ export function AuthProvider({ children }) {
       getDoc(docRef).then((docSnap) => {
         if (docSnap.exists()) {
           setCurrentUser(docSnap.data());
-          router.push("/courses");
+          router.push("/");
         } else {
           setDoc(doc(db, "users", result.user.uid), {
             email: result.user.email,
@@ -64,7 +64,10 @@ export function AuthProvider({ children }) {
             isActive: false,
             hideMe: false,
             isOnline: false,
-          });
+          }).then(() => {
+            router.push("/");
+          }
+          );
         }
       });
     });

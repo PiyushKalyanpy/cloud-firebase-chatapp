@@ -9,6 +9,8 @@ import { db, rtdb } from "@/database/firebase";
 import { doc, getDoc } from "firebase/firestore";
 import UserComponent from "@/components/UserComponent";
 import { UserInterface } from "@/types/User";
+import { LuSend } from "react-icons/lu";
+
 
 interface Chat {
   message: string;
@@ -94,12 +96,12 @@ const ChatPage = () => {
 
   return (
     <div className="flex flex-col h-screen w-full">
-      <header className="bg-gray-800 text-white p-4">
+      <header className="bg-white border-b-1  p-4">
         <div className="flex items-center justify-between">
           <UserComponent {...(userInfo as UserInterface)} />
         </div>
       </header>
-      <main className="flex-grow p-4 overflow-y-scroll">
+      <main className="flex-grow flex flex-col p-4 gap-4 overflow-y-scroll">
         {Object.values(chats).map((chat) => (
           <div
             key={chat.timestamp}
@@ -107,7 +109,7 @@ const ChatPage = () => {
               chat.sentTo !== currentUser.uid ? "items-end" : "justify-start"
             }`}
           >
-            <div className="flex flex-col w-fit">
+            <div className={`flex flex-col w-fit p-4 rounded-2xl ${ chat.sentTo !== currentUser.uid ? "bg-blue-500 text-white" : "bg-gray-100" }`}>
               <div className="flex-grow">
                 <p>{chat.message}</p>
               </div>
@@ -123,19 +125,24 @@ const ChatPage = () => {
           </div>
         ))}
       </main>
-      <footer className="bg-gray-800 text-white p-4">
-        <div className="flex flex-row items-center">
+      <footer className="bg-white border-t-1 p-4">
+        <div className="flex space-x-2 flex-row items-center">
           <Input
             placeholder="Type a message"
             value={message}
+            radius="full"
             onChange={(e) => setMessage(e.target.value)}
             onKeyPress={(e) => {
               if (e.key === "Enter") {
                 sendMessage();
               }
             }}
+            className="rounded-full"
           />
-          <Button onClick={sendMessage}>Send</Button>
+          <Button onClick={sendMessage} className="h-14 bg-blue-600 text-xl text-white w-8 rounded-full">
+          <LuSend  />
+
+          </Button>
         </div>
       </footer>
     </div>
