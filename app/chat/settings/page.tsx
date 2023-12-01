@@ -14,7 +14,7 @@ const updateUserData = async (uid: string, hideMe: Boolean) => {
 };
 
 const Settings = () => {
-  const { currentUser } = useContext(AuthContext);
+  const { currentUser, logout } = useContext(AuthContext);
   const [hideMe, setHideMe] = useState<boolean>(false);
   useEffect(() => {
     setHideMe(currentUser.hideMe);
@@ -26,7 +26,7 @@ const Settings = () => {
   };
 
   return (
-    <div className="w-full p-4">
+    <div className="w-full p-4 flex  flex-col space-y-2">
       <div className="flex flex-row items-center justify-between w-full border p-4 rounded-2xl ">
         <div className=" flex flex-col space-y-2">
           <h1 className="text-xl ">Hide me</h1>
@@ -35,6 +35,9 @@ const Settings = () => {
           </p>
         </div>
         <Switch isSelected={hideMe} onValueChange={handleHideMeChange} />
+      </div>
+        <div onClick={logout} className="flex flex-row cursor-pointer items-center justify-between w-full border p-4 rounded-2xl ">
+        <h1 className="text-xl ">Logout</h1>
       </div>
     </div>
   );

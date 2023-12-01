@@ -6,13 +6,11 @@ export default function ChatLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className="flex flex-row w-full ">
-        <div className="flex w-1/4">
-          <ChatSidebar />
-        </div>
-        <div className="flex w-3/4">{children}</div>
-      </body>
-    </html>
+    <div className="flex flex-row w-full ">
+      <div className="hidden md:flex w-1/4">
+        <ChatSidebar />
+      </div>
+      <div className="w-full flex md:w-3/4">{children}</div>
+    </div>
   );
 }

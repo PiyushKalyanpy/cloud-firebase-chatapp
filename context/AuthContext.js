@@ -78,11 +78,8 @@ export function AuthProvider({ children }) {
   };
 
   const logout = () => {
-    signOut(auth).then(() => {
-      setCurrentUser(null);
-      router.push("/login");
-      updateOnlineStatus(currentUser.uid, false); // Call updateOnlineStatus function
-    });
+    signOut(auth)
+    router.push("/login");
   };
 
   useEffect(() => {
