@@ -18,7 +18,7 @@ const Login = () => {
           className="bg-blue-500 p-4 rounded-2xl text-white font-semibold"
           onClick={loginWithGoogle}
         >
-          Login with Googles {!isLoading && " | Not Loading..."}
+          Login with Google
         </button>
 
         {currentUser && (
