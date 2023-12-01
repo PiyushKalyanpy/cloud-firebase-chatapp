@@ -5,9 +5,11 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 const Login = () => {
-  const { loginWithGoogle, currentUser } = useContext(AuthContext);
+  const { loginWithGoogle, currentUser, isLoading } = useContext(AuthContext);
   const router = useRouter();
-  if (currentUser) router.push("/");
+  if (currentUser) {
+    router.push("/");
+  }
 
   return (
     <div className="flex justify-center items-center w-full h-screen ">
@@ -16,7 +18,7 @@ const Login = () => {
           className="bg-blue-500 p-4 rounded-2xl text-white font-semibold"
           onClick={loginWithGoogle}
         >
-          Login with Google
+          Login with Googles {!isLoading && " | Not Loading..."}
         </button>
 
         {currentUser && (

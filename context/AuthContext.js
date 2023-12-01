@@ -6,6 +6,7 @@ import { signOut, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { useRouter } from "next/navigation";
 import { updateOnlineStatus } from "@/utils/db";
+import { set } from "firebase/database";
 
 export const AuthContext = React.createContext();
 
@@ -34,6 +35,7 @@ export function AuthProvider({ children }) {
       return;
     }
     if (currentUser) {
+      setIsLoading(false);
       return;
     }
     console.log("aa");
@@ -44,6 +46,7 @@ export function AuthProvider({ children }) {
   };
 
   const loginWithGoogle = async () => {
+    setIsLoading(true);
     const provider = new GoogleAuthProvider();
     signInWithPopup(auth, provider).then((result) => {
       const docRef = doc(db, "users", result.user.uid);
@@ -65,6 +68,7 @@ export function AuthProvider({ children }) {
             hideMe: false,
             isOnline: false,
           }).then(() => {
+            setIsLoading(false)
             router.push("/");
           }
           );
@@ -83,6 +87,7 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
+      setIsLoading(true);
       authStateChanged(user);
     });
     return unsubscribe;

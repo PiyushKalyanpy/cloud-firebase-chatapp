@@ -1,6 +1,12 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* default font ibmplexsans */
+*{
+  font-family: 'Ibm Plex Sans';
+}
+
 /* 
 :root {
   --foreground-rgb: 0, 0, 0;
