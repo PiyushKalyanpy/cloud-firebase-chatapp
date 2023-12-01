@@ -98,11 +98,13 @@ const ChatPage = () => {
     <div className="flex flex-col h-screen w-full">
       <header className="bg-white border-b-1  p-4">
         <div className="flex items-center justify-between">
-          <UserComponent {...(userInfo as UserInterface)} />
+          {
+            userInfo && <UserComponent {...(userInfo as UserInterface)} />
+          }
         </div>
       </header>
       <main className="flex-grow flex flex-col p-4 gap-4 overflow-y-scroll">
-        {Object.values(chats).map((chat) => (
+        {chats && Object.values(chats).map((chat) => (
           <div
             key={chat.timestamp}
             className={`flex flex-col ${
@@ -125,7 +127,7 @@ const ChatPage = () => {
           </div>
         ))}
       </main>
-      <footer className="bg-white border-t-1 p-4">
+      <footer className="bg-white border-t-1 p-4 ">
         <div className="flex space-x-2 flex-row items-center">
           <Input
             placeholder="Type a message"

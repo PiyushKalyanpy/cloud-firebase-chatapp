@@ -36,7 +36,7 @@ const Settings = () => {
         </div>
         <Switch isSelected={hideMe} onValueChange={handleHideMeChange} />
       </div>
-        <div onClick={logout} className="flex flex-row cursor-pointer items-center justify-between w-full border p-4 rounded-2xl ">
+        <div onClick={logout} className="flex bg-red-50 text-red-700 flex-row cursor-pointer items-center justify-between w-fit border p-4 border-red-200 rounded-2xl ">
         <h1 className="text-xl ">Logout</h1>
       </div>
     </div>
